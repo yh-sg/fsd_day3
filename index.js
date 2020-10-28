@@ -73,10 +73,6 @@ app.get('/search', async(req,res)=>{
 
 })
 
-app.get('/images',(req,res)=>{
-    res.render('images')
-})
-
 if(API_KEY)
     app.listen(PORT, ()=>{
         console.log(`App is running on ${PORT} at ${new Date()} key ${API_KEY}`);
