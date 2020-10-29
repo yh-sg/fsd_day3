@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express')
 const hbs = require('express-handlebars')
 const fetch = require('node-fetch')
@@ -56,8 +57,26 @@ app.get('/search', async(req,res)=>{
     let jsResult = await result.json();
 
     // console.log('giphys: \n', jsResult)
+    //search Giphy, use await
 
-    
+
+    // const imgs = []
+    // for (let d of jsResult.data) {
+    //     const title = d.title 
+    //     const url = d.images.fixed_height.url
+    //     // const url = d['images']['fixed_height']['url']
+    //     imgs.push({
+    //         title, url
+    //     })
+    // }
+
+    const imgs = jsResult.data
+    .map((d)=>{
+        return {title: d.title, url: d.images.fixed_height.url}
+    })
+
+    console.log(imgs);
+
     for (let i = 0; i < jsResult.data.length; i++) {
         array.push(jsResult.data[i].images.fixed_height.url)
     }
@@ -65,12 +84,17 @@ app.get('/search', async(req,res)=>{
 
     // pull out and pass the arrays to handlebar
 
-    return res.render('search', {
-        search,
-        array
+    // return res.render('search', {
+    //     search,
+    //     array
+    // })
+    res.status(200)
+    res.type('text/html')
+    res.render('search',{
+        search, imgs,
+        hasContent: imgs.length >0
+        // hasContent: !!imgs.length
     })
-
-
 })
 
 if(API_KEY)

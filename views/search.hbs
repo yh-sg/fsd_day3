@@ -1,6 +1,12 @@
 <h1>Your search is {{search}}</h1>
 
-{{#each array}}
-    <img src="{{this}}" alt="img">
-   <p>{{this}}</p>
+{{#if hasContent}}
+{{#each imgs}}
+    <div>
+        <h4>{{this.title}}</h4>
+        <td><img src="{{this.url}}" alt="img"></td>
+    </div>
 {{/each}}
+{{else}}
+    <h4>Your search returns no results</h4>
+{{/if}}
